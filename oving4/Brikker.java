@@ -18,7 +18,6 @@ public class Brikker {
 	public void endrepos(char a){
 		this.brikke = a;
 	}
-	
 	public boolean tomt(){
 		return (this.brikke == '.' || this.brikke == ' ');
 	}
@@ -32,5 +31,4 @@ public class Brikker {
 	public String toString(){
 		return this.brikke+"";
 	}
-	
 }
