@@ -5,6 +5,7 @@ public class Brett {
 	int hoyde,bredde, spillerX,spillerY;
 	
 	public Brett(String board){
+		//Initialiserer brettet. Lager en tabell av datatypen Brikker (se Java-klassen).
 		String[] temp = board.split("\n");
 		hoyde = temp.length;
 		bredde = temp[0].length(); //Antar at banen er en perfekt firkant.
@@ -13,48 +14,244 @@ public class Brett {
 			for(int j=0;j<temp[i].length();j++){
 				brett[i][j] = new Brikker(temp[i].charAt(j));
 				if(brett[i][j].spiller()){
-					endrespillerXY(i,j);
+					endrespillerY(i);
+					endrespillerX(j);
 				}
 			}
 		}
 	}
 	
-	public void endrespillerXY(int x,int y){
+	public void endrespillerX(int x){
 		this.spillerX = x;
+	}
+	
+	public void endrespillerY(int y){
 		this.spillerY = y;
 	}
-	
-	
-//	public boolean godkjent(int x, int y){
-//		if(brett[x][y].hentbrikke() == '#'){
-//			return false;
-//		}
-//		else if ((brett[x][y].hentbrikke() == '$' || brett[x][y].hentbrikke() == '*') && (godkjent(x+1,y) || godkjent(x-1,y) || godkjent(x,y+1) || godkjent(x,y-1))){
-//			return false;
-//		}
-//	}
-	
-	
 	public void opp(){
-		if(brett[this.spillerX][this.spillerY-1].hentbrikke()=='#'){
-			throw new IllegalArgumentException("Kan ikke g� inn i veggen!");
+		int x = this.spillerX;
+		int y = this.spillerY;
+		
+		if(brett[y-1][x].hentbrikke()=='#'){
+			throw new IllegalArgumentException("Kan ikke gå i veggen nedover!");
 		}
-		else if((brett[this.spillerX][this.spillerY-1].hentbrikke() == '$' || brett[this.spillerX][this.spillerY-1].hentbrikke() == '*') && brett[this.spillerX][this.spillerY-2].hentbrikke() == '#'){
-			throw new IllegalArgumentException("Kan ikke dytte boksen inn i veggen!");
+		else if((brett[y-1][x].hentbrikke() == '$' || brett[y-1][x].hentbrikke() == '*') && !brett[y-2][x].tomt()){
+			throw new IllegalArgumentException("Kan ikke dytte en boks inn i noe!");
 		}
 		
-		if(brett[this.spillerX][this.spillerY].hentbrikke() == '+'){
-			
+		char er = (brett[y][x].hentbrikke() == '+') ? '.' : ' ';
+		
+		if(brett[y-1][x].tomt() && !brett[y-1][x].maal()){
+			System.out.println("kake");
+			endrespillerY(y-1);
+			brett[y][x].endrepos(er);
+			brett[y-1][x].endrepos('@');
 		}
-		else {
-			endrespillerXY(this.spillerX,this.spillerY);
+		else if(brett[y-1][x].maal()){
+			System.out.println("ja!");
+			endrespillerY(y-1);
+			brett[y][x].endrepos(er);
+			brett[y-1][x].endrepos('+');
+		}
+		else if(brett[y-1][x].hentbrikke()=='$' && brett[y-2][x].hentbrikke()=='.'){
+			System.out.println("kake2");
+			endrespillerY(y-1);
+			brett[y][x].endrepos(er);
+			brett[y-1][x].endrepos('@');
+			brett[y-2][x].endrepos('*');
+		}
+		else if(brett[y-1][x].hentbrikke() == '$' && brett[y-2][x].tomt()){
+			System.out.println("kake3");
+			endrespillerY(y-1);
+			brett[y][x].endrepos(er);
+			brett[y-1][x].endrepos('@');
+			brett[y-2][x].endrepos('$');
+		}
+		else if(brett[y-1][x].hentbrikke() == '*' && brett[y-2][x].tomt()){
+			System.out.println("kake4");
+			endrespillerY(y-1);
+			brett[y][x].endrepos(er);
+			brett[y-1][x].endrepos('+');
+			if(brett[y-2][x].maal()){
+				brett[y-2][x].endrepos('*');
+			}
+			else{
+				brett[y-2][x].endrepos('$');
+			}
+		}
+	}
+	
+	public void ned(){
+		int x = this.spillerX;
+		int y = this.spillerY;
+		
+		if(brett[y+1][x].hentbrikke()=='#'){
+			throw new IllegalArgumentException("Kan ikke gå i veggen nedover!");
+		}
+		else if((brett[y+1][x].hentbrikke() == '$' || brett[y+1][x].hentbrikke() == '*') && !brett[y+2][x].tomt()){
+			throw new IllegalArgumentException("Kan ikke dytte en boks inn i noe!");
+		}
+		
+		char er = (brett[y][x].hentbrikke() == '+') ? '.' : ' ';
+		
+		if(brett[y+1][x].tomt() && !brett[y+1][x].maal()){
+			endrespillerY(y+1);
+			brett[y][x].endrepos(er);
+			brett[y+1][x].endrepos('@');
+		}
+		else if(brett[y+1][x].maal()){
+			endrespillerY(y+1);
+			brett[y][x].endrepos(er);
+			brett[y+1][x].endrepos('+');
+		}
+		else if(brett[y+1][x].hentbrikke()=='$' && brett[y+2][x].hentbrikke()=='.'){
+			endrespillerY(y+1);
+			brett[y][x].endrepos(er);
+			brett[y+1][x].endrepos('@');
+			brett[y+2][x].endrepos('*');
+		}
+		else if(brett[y+1][x].hentbrikke() == '$' && brett[y+2][x].tomt()){
+			endrespillerY(y+1);
+			brett[y][x].endrepos(er);
+			brett[y+1][x].endrepos('@');
+			brett[y+2][x].endrepos('$');
+		}
+		else if(brett[y+1][x].hentbrikke() == '*' && brett[y+2][x].tomt()){
+			endrespillerY(y+1);
+			brett[y][x].endrepos(er);
+			brett[y+1][x].endrepos('+');
+			if(brett[y+2][x].maal()){
+				brett[y+2][x].endrepos('*');
+			}
+			else{
+				brett[y+2][x].endrepos('$');
+			}
 		}
 		
 	}
 	
+	public void venstre(){
+		int x = this.spillerX;
+		int y = this.spillerY;
+		
+		if(x-1<0){
+			throw new IllegalArgumentException("Det funker dårlig...");
+		}
+		else if(brett[y][x-1].hentbrikke() == '#'){
+			throw new IllegalArgumentException("Kan ikke gå i veggen.");
+		}
+		else if((brett[y][x-1].hentbrikke() == '$' || brett[y][x-1].hentbrikke() == '*') && !brett[y][x-2].tomt()){
+			throw new IllegalArgumentException("Kan ikke dytte en boks inn i noe!");
+		}
+		
+		char er = (brett[y][x].hentbrikke() == '+') ? '.' : ' ';
+		
+		if(brett[y][x-1].maal()){
+			endrespillerX(x-1);
+			brett[y][x].endrepos(er);
+			brett[y][x-1].endrepos('+');
+		}
+		else if(brett[y][x-1].tomt()){
+			endrespillerX(x-1);
+			brett[y][x].endrepos(er);
+			brett[y][x-1].endrepos('@');
+		}
+		else if(brett[y][x-1].hentbrikke() == '$' && brett[y][x-2].hentbrikke()=='.'){
+			endrespillerX(x-1);
+			brett[y][x].endrepos(er);
+			brett[y][x-1].endrepos('@');
+			brett[y][x-2].endrepos('*');
+		}
+		else if(brett[y][x-1].hentbrikke() == '$'  && brett[y][x-2].tomt()){
+			endrespillerX(x-1);
+			brett[y][x].endrepos(er);
+			brett[y][x-1].endrepos('@');
+			brett[y][x-2].endrepos('$');
+		}
+		else if(brett[y][x-1].hentbrikke() == '*' && brett[y][x-2].tomt()){
+			endrespillerX(x-1);
+			brett[y][x].endrepos(er);
+			brett[y][x-1].endrepos('+');
+			if(brett[y][x-2].maal()){
+				brett[y][x-2].endrepos('*');
+			}
+			else{
+				brett[y][x-2].endrepos('$');
+			}
+		}
+	}
+	
+	public void hoyre(){
+		int x = this.spillerX;
+		int y = this.spillerY;
+		
+		if(x+2>brett[0].length){
+			throw new IllegalArgumentException("Det går nok dårlig, ja.");
+		}
+		else if(brett[y][x+1].hentbrikke()=='#'){
+			throw new IllegalArgumentException("Nå krasjer du i veggen.");
+		}
+		else if((brett[y][x+1].hentbrikke() == '$' || brett[y][x+1].hentbrikke()=='*') && !brett[y][x+2].tomt()){
+			throw new IllegalArgumentException("Kan ikke dytte en boks inn i noe.");
+		}
+		
+		char er = (brett[y][x].hentbrikke() == '+') ? '.' : ' ';
+		
+		if(brett[y][x+1].maal()){
+			endrespillerX(x+1);
+			brett[y][x].endrepos(er);
+			brett[y][x+1].endrepos('+');
+		}
+		else if(brett[y][x+1].tomt()){
+			endrespillerX(x+1);
+			brett[y][x].endrepos(er);
+			brett[y][x+1].endrepos('@');
+		}
+		else if(brett[y][x+1].hentbrikke() == '$' && brett[y][x+2].hentbrikke()=='.'){
+			endrespillerX(x+1);
+			brett[y][x].endrepos(er);
+			brett[y][x+1].endrepos('@');
+			brett[y][x+2].endrepos('*');
+		}
+		else if((brett[y][x+1].hentbrikke() == '$' || brett[y][x+1].hentbrikke() == '*')  && brett[y][x+2].tomt()){
+			endrespillerX(x+1);
+			brett[y][x].endrepos(er);
+			brett[y][x+1].endrepos('@');
+			brett[y][x+2].endrepos('$');
+		}
+		else if(brett[y][x+1].hentbrikke() == '*' && brett[y][x+2].tomt()){
+			endrespillerX(x+1);
+			brett[y][x].endrepos(er);
+			brett[y][x+1].endrepos('+');
+			if(brett[y][x+2].maal()){
+				brett[y][x+2].endrepos('*');
+			}
+			else{
+				brett[y][x+2].endrepos('$');
+			}
+		}
+	}
+	
+	public boolean ferdig(){
+		//Ferdig når det er 0 $ igjen på kartet.
+		int antall = 0;
+		Brikker[][] brettet = this.brett;
+		for(int i = 0; i<brettet.length;i++){
+			for(int j = 0; j<brettet.length;j++){
+				if(brettet[i][j].hentbrikke() == '$'){
+					antall++;
+				}
+			}
+		}
+		if(antall>0){
+			return false;
+		}
+		return true;
+	}
 	
 	
 	
+	@Override
 	public String toString(){
 		String res = "";
 		for(int k=0; k<this.brett.length;k++){
@@ -68,10 +265,7 @@ public class Brett {
 	
 	
 	public static void main(String[] args) {
-		Brett k = new Brett(SampleLevels.SAMPLE_LEVEL4);
-		System.out.println(k);
-		k.opp();
+		Brett k = new Brett(SampleLevels.SAMPLE_LEVEL2);
 		System.out.println(k);
 	}
-	
 }
