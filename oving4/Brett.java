@@ -33,7 +33,7 @@ public class Brett {
 		int y = this.spillerY;
 		
 		if(brett[y-1][x].hentbrikke()=='#'){
-			throw new IllegalArgumentException("Kan ikke gå i veggen nedover!");
+			throw new IllegalArgumentException("Kan ikke gå i veggen oppover!");
 		}
 		else if((brett[y-1][x].hentbrikke() == '$' || brett[y-1][x].hentbrikke() == '*') && !brett[y-2][x].tomt()){
 			throw new IllegalArgumentException("Kan ikke dytte en boks inn i noe!");
@@ -42,33 +42,28 @@ public class Brett {
 		char er = (brett[y][x].hentbrikke() == '+') ? '.' : ' ';
 		
 		if(brett[y-1][x].tomt() && !brett[y-1][x].maal()){
-			System.out.println("kake");
 			endrespillerY(y-1);
 			brett[y][x].endrepos(er);
 			brett[y-1][x].endrepos('@');
 		}
 		else if(brett[y-1][x].maal()){
-			System.out.println("ja!");
 			endrespillerY(y-1);
 			brett[y][x].endrepos(er);
 			brett[y-1][x].endrepos('+');
 		}
 		else if(brett[y-1][x].hentbrikke()=='$' && brett[y-2][x].hentbrikke()=='.'){
-			System.out.println("kake2");
 			endrespillerY(y-1);
 			brett[y][x].endrepos(er);
 			brett[y-1][x].endrepos('@');
 			brett[y-2][x].endrepos('*');
 		}
 		else if(brett[y-1][x].hentbrikke() == '$' && brett[y-2][x].tomt()){
-			System.out.println("kake3");
 			endrespillerY(y-1);
 			brett[y][x].endrepos(er);
 			brett[y-1][x].endrepos('@');
 			brett[y-2][x].endrepos('$');
 		}
 		else if(brett[y-1][x].hentbrikke() == '*' && brett[y-2][x].tomt()){
-			System.out.println("kake4");
 			endrespillerY(y-1);
 			brett[y][x].endrepos(er);
 			brett[y-1][x].endrepos('+');
@@ -246,7 +241,9 @@ public class Brett {
 		if(antall>0){
 			return false;
 		}
-		return true;
+		else{
+			return true;
+		}
 	}
 	
 	
