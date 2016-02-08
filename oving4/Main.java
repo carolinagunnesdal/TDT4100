@@ -42,6 +42,7 @@ public class Main extends Application {
 			GridPane root = new GridPane();
 			Scene scene = new Scene(root,bredde*16,hoyde*16);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setTitle("Simen presenterer: Sokoban!");
 			primaryStage.setScene(scene);
 			primaryStage.show();
 
@@ -225,6 +226,7 @@ public class Main extends Application {
 		root2.getChildren().add(level4);
 		
 		Stage secondaryStage = new Stage();
+		secondaryStage.setTitle("Simen presenterer: Sokoban!");
 		secondaryStage.setScene(new Scene(root2,400,100));
 		secondaryStage.show();
 	}
