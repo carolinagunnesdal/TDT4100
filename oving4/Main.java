@@ -7,29 +7,29 @@ import javafx.stage.Stage;
 import application.Brikker;
 import application.SampleLevels;
 import application.Brett;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextBuilder;
 import javafx.scene.text.TextFlow;
-import application.Brett;
-import java.util.Scanner;
-
-import application.Sokoban;
 
 
 public class Main extends Application {
 	Brett brettet;
 	int hoyde,bredde;
+	Image wall = new Image(getClass().getResourceAsStream("bilder/wall16x16.png"));
+	Image target = new Image(getClass().getResourceAsStream("bilder/target16x16.png"));
+	Image boxtarget = new Image(getClass().getResourceAsStream("bilder/box_on_target16x16.png"));
+	Image player = new Image(getClass().getResourceAsStream("bilder/player16x16.png"));
+	Image playertarget = new Image(getClass().getResourceAsStream("bilder/player_on_target16x16.png"));
+	Image empty = new Image(getClass().getResourceAsStream("bilder/empty16x16.png"));
+	Image box = new Image(getClass().getResourceAsStream("bilder/box16x16.png"));
+	
 	public void start2(String lvl) {
 		try {
 			Stage primaryStage = new Stage();
@@ -45,37 +45,30 @@ public class Main extends Application {
 			primaryStage.setTitle("Simen presenterer: Sokoban!");
 			primaryStage.setScene(scene);
 			primaryStage.show();
-
+			
 			for(int i=0;i<temp.length;i++){
 				for(int j=0;j<temp[i].length();j++){
 					brett[i][j] = new Brikker(temp[i].charAt(j));
 					if(brett[i][j].hentbrikke()=='#'){
-						Image brikken = new Image("file:///C:\\Users\\Simen\\workspace\\Sokoban\\src\\application\\bilder\\wall16x16.png");
-						root.add(new ImageView(brikken), j, i);
+						root.add(new ImageView(this.wall), j, i);
 					}
 					else if(brett[i][j].hentbrikke()=='.'){
-						Image brikken = new Image("file:///C:\\Users\\Simen\\workspace\\Sokoban\\src\\application\\bilder\\target16x16.png");
-						root.add(new ImageView(brikken), j, i);
+						root.add(new ImageView(this.target), j, i);
 					}
 					else if(brett[i][j].hentbrikke() == '*'){
-						Image brikken = new Image("file:///C:\\Users\\Simen\\workspace\\Sokoban\\src\\application\\bilder\\box_on_target16x16.png");
-						root.add(new ImageView(brikken), j, i);
+						root.add(new ImageView(this.boxtarget), j, i);
 					}
 					else if(brett[i][j].hentbrikke() == '@'){
-						Image brikken = new Image("file:///C:\\Users\\Simen\\workspace\\Sokoban\\src\\application\\bilder\\player16x16.png");
-						root.add(new ImageView(brikken), j, i);
+						root.add(new ImageView(this.player), j, i);
 					}
 					else if(brett[i][j].hentbrikke() == '+'){
-						Image brikken = new Image("file:///C:\\Users\\Simen\\workspace\\Sokoban\\src\\application\\bilder\\player_on_target16x16.png");
-						root.add(new ImageView(brikken), j, i);
+						root.add(new ImageView(this.playertarget), j, i);
 					}
 					else if(brett[i][j].hentbrikke() == ' '){
-						Image brikken = new Image("file:///C:\\Users\\Simen\\workspace\\Sokoban\\src\\application\\bilder\\empty16x16.png");
-						root.add(new ImageView(brikken), j, i);
+						root.add(new ImageView(this.empty), j, i);
 					}
 					else{
-						Image brikken = new Image("file:///C:\\Users\\Simen\\workspace\\Sokoban\\src\\application\\bilder\\box16x16.png");
-						root.add(new ImageView(brikken), j, i);
+						root.add(new ImageView(this.box), j, i);
 					}
 				}
 			}
@@ -135,39 +128,6 @@ public class Main extends Application {
 		}
 		
 	}
-	
-//	public String nivaa(){
-//		int nivaa;
-//		boolean init = false;
-//		Scanner skanner = new Scanner(System.in);
-//		while(!init){
-//			System.out.println("Hvilket nivå ønker du å spille på? Velg fra 1 til-og-med 4.");
-//			System.out.print("> ");
-//			nivaa = skanner.nextInt();
-//			if(nivaa == 1){
-//				init = true;
-//				return SampleLevels.SAMPLE_LEVEL1;
-//			}
-//			else if(nivaa == 2){
-//				init = true;
-//				return SampleLevels.SAMPLE_LEVEL2;
-//			}
-//			else if(nivaa == 3){
-//				init = true;
-//				return SampleLevels.SAMPLE_LEVEL3;
-//			}
-//			else if(nivaa == 4){
-//				init = true;
-//				return SampleLevels.SAMPLE_LEVEL4;
-//			}
-//			else{
-//				System.out.println("Du må velge et nivå mellom 1 og 4.");
-//			}
-//		}
-//		skanner.close();
-//		return null;
-//	}
-//	
 	
 	public void start(Stage primaryStage){
 		Button level1 = new Button();
@@ -237,32 +197,31 @@ public class Main extends Application {
 		for(int i=0;i<this.hoyde;i++){
 			for(int j=0;j<this.bredde;j++){
 				if(temp[i][j].hentbrikke()=='#'){
-					Image brikken = new Image("file:///C:\\Users\\Simen\\workspace\\Sokoban\\src\\application\\bilder\\wall16x16.png");
-					rooten.add(new ImageView(brikken), j, i);
+					rooten.add(new ImageView(this.wall), j, i);
 				}
 				else if(temp[i][j].hentbrikke()=='.'){
-					Image brikken = new Image("file:///C:\\Users\\Simen\\workspace\\Sokoban\\src\\application\\bilder\\target16x16.png");
-					rooten.add(new ImageView(brikken), j, i);
+					
+					rooten.add(new ImageView(this.target), j, i);
 				}
 				else if(temp[i][j].hentbrikke() == '*'){
-					Image brikken = new Image("file:///C:\\Users\\Simen\\workspace\\Sokoban\\src\\application\\bilder\\box_on_target16x16.png");
-					rooten.add(new ImageView(brikken), j, i);
+					
+					rooten.add(new ImageView(this.boxtarget), j, i);
 				}
 				else if(temp[i][j].hentbrikke() == '@'){
-					Image brikken = new Image("file:///C:\\Users\\Simen\\workspace\\Sokoban\\src\\application\\bilder\\player16x16.png");
-					rooten.add(new ImageView(brikken), j, i);
+					
+					rooten.add(new ImageView(this.player), j, i);
 				}
 				else if(temp[i][j].hentbrikke() == '+'){
-					Image brikken = new Image("file:///C:\\Users\\Simen\\workspace\\Sokoban\\src\\application\\bilder\\player_on_target16x16.png");
-					rooten.add(new ImageView(brikken), j, i);
+					
+					rooten.add(new ImageView(this.playertarget), j, i);
 				}
 				else if(temp[i][j].hentbrikke() == ' '){
-					Image brikken = new Image("file:///C:\\Users\\Simen\\workspace\\Sokoban\\src\\application\\bilder\\empty16x16.png");
-					rooten.add(new ImageView(brikken), j, i);
+					
+					rooten.add(new ImageView(this.empty), j, i);
 				}
 				else{
-					Image brikken = new Image("file:///C:\\Users\\Simen\\workspace\\Sokoban\\src\\application\\bilder\\box16x16.png");
-					rooten.add(new ImageView(brikken), j, i);
+					
+					rooten.add(new ImageView(this.box), j, i);
 				}
 			}
 		}
@@ -274,5 +233,6 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+		
 	}
 }
