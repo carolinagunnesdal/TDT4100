@@ -10,6 +10,7 @@ public class BinaryComputingIterator implements Iterator<Double> {
     Iterator<Double> it1, it2;
     Double def1, def2;
     BinaryOperator<Double> operator;
+    Boolean a;
    
     BinaryComputingIterator(Iterator<Double> iterator1, Iterator<Double> iterator2, BinaryOperator<Double> op){
         this.it1 = iterator1;
@@ -17,6 +18,7 @@ public class BinaryComputingIterator implements Iterator<Double> {
         this.operator = op;
         this.def1 = (double) 0;
         this.def2 = (double) 0;
+        a = false;
     }
     BinaryComputingIterator(Iterator<Double> iterator1, Iterator<Double> iterator2,Double def1, Double def2, BinaryOperator<Double> op){
         this.it1 = iterator1;
@@ -24,7 +26,7 @@ public class BinaryComputingIterator implements Iterator<Double> {
         this.operator = op;
         this.def1 = def1;
         this.def2 = def2;
-       
+        a = true;
     }
    
     public Double apply(Double u,Double t){
@@ -33,6 +35,9 @@ public class BinaryComputingIterator implements Iterator<Double> {
    
     @Override
     public boolean hasNext() {
+       if(!a){
+           return it1.hasNext() && it2.hasNext();
+       }
         return it1.hasNext() || it2.hasNext();
     }
  
